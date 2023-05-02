@@ -34,7 +34,7 @@ function Login(props) {
     catch(err) {
       setIsSubmitting(false);
       console.log(err);
-      ({...err}.response.status === 401)?setError("User name or Password incorrect!"):setError("Other Error");
+      ({...err}.response.status === 401)?setError("User name or Password incorrect!"):setError(err);
     }
 
   }
