@@ -19,7 +19,7 @@ function CartDialog(props) {
         purchasedItems: []
     }
     
-    //const {userContext, seterContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
+    //const {userContext, setUserContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
     const {userContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
     const [order, setOrder] = useState(emptyOrder);
 
