@@ -77,7 +77,7 @@ const UserProvider = (props) => {
             
             localStorage.setItem(userState.details.email, JSON.stringify(cartItems));
         }       
-    }, [cartItems])
+    }, [cartItems, userState.details])
 
 
     return (

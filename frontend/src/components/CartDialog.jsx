@@ -2,7 +2,6 @@ import React, {useState, useContext, useEffect} from "react";
 import axios from "axios";
 import {Dialog} from "primereact/dialog";
 import {Button} from "primereact/button";
-//import {CartContext} from "../context/CartContext";
 import {UserContext} from "../context/UserContext";
 
 import CartItem from "./CartItem";
@@ -19,8 +18,9 @@ function CartDialog(props) {
         deliveryAddress: "",
         purchasedItems: []
     }
-    //const {cartItems, emptyCart, updateCart} = useContext(CartContext);
-    const {userContext, setUserContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
+    
+    //const {userContext, seterContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
+    const {userContext, cartItems, emptyCart, updateCart} = useContext(UserContext); 
     const [order, setOrder] = useState(emptyOrder);
 
     const updateOrder = (e) => {
@@ -86,7 +86,7 @@ function CartDialog(props) {
                 return {...prev, customer: userInfo.name, contact: userInfo.mobile, address: userInfo.address};
         })
         
-    }, [])
+    }, [userContext.details])
 
     const CartFooter = (
         <div>

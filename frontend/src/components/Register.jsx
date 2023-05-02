@@ -10,11 +10,11 @@ import { classNames } from 'primereact/utils';
 
   function Register() {
 
-    const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState({});
-    const {userContext, setUserContext} = useContext(UserContext);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [showError, setShowError] = useState(false);
+    const [ setShowMessage] = useState(false);
+    const [ setFormData] = useState({});
+    const {setUserContext} = useContext(UserContext);
+    const [ setIsSubmitting] = useState(false);
+    //const [showError, setShowError] = useState(false);
     const defaultValues = {
         name: '',
         username: '',        
