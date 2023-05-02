@@ -18,10 +18,11 @@ app.use(cookieParser(process.env.SECRET));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-app.use(express.static(path.join(__dirname, "../../../frontend/public")));
+console.log(__dirname);
+app.use(express.static(path.join(__dirname, "../../../frontend/build")));
 
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../../frontend/public/index.html"));
+  res.sendFile(path.join(__dirname, "../../../frontend/build/index.html"));
 });
 
 app.use("/auth", authRouter);
