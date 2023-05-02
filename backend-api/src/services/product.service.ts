@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { INewProduct} from "../models/product.model";
 import { INewTransaction } from "../models/transaction.model";
 import {IProduct} from "../models/product.model";
-const initData = require("../util/initData.json");
+const initData = require("../util/initData");
 
 const prisma = new PrismaClient();
 
