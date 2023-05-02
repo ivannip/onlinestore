@@ -1,4 +1,4 @@
-import { transactionService } from "../../src/services/transaction.service";
+import { transactionService } from "../services/transaction.service";
 import {RequestHandler,Request, Response} from "express";
 
 const showAllTransaction: RequestHandler = async (req: Request, res: Response) => {
