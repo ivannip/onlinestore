@@ -1,6 +1,7 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { INewOrder } from "../models/order.model";
 import {orderService} from "../services/order.service"
+import {productService} from "../services/product.service"
 
 // Function to create a new order
 const newOrder: RequestHandler<never, any, INewOrder> = async (req: Request, res: Response) => {
@@ -54,10 +55,28 @@ const clearAllOrder: RequestHandler = async (req: Request, res: Response) => {
     }
 }
 
+//function to handle order submission, which include update inventory and set order status
+// if not enough inventory, set status as refund, otherwise order confirmed
+const submitOrder: RequestHandler<never, any, INewOrder> = async (req: Request, res: Response) => {
+    
+    try {
+        //update inventory here
+        await productService.updateMultiProductInventory(req.body.purchasedItems)
+        
+        //create order record with status "confirmed" if everything goes fine
+        res.status(200).json(await orderService.createOrder(req.body))
+    } catch (err) {
+        //create order record with status "refund" if error e.g. not enough inventory
+        res.status(200).json(await orderService.createOrder(req.body, "refund"))
+
+    }
+}
+
 export const orderController = {
     newOrder,
     updateOrderStatus,
     showAllOrder,
     showConfirmedOrder,
-    clearAllOrder
+    clearAllOrder,
+    submitOrder
 }

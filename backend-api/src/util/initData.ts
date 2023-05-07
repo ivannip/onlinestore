@@ -1,4 +1,4 @@
-{
+export const initData = {
     products: [
     {
       name: "Straight Leg Crop",

@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 // The input parameter is an object that contains the customer information, contact details, delivery address and purchased items
 // The function creates the new order and its purchased items using the create() method of the Prisma client
 // It also includes the product information of the purchased items using the include() method of the Prisma client
-const createOrder = async (input: INewOrder) => {
+const createOrder = async (input: INewOrder, status="confirmed") => {
     
     try {
         const newOrder = await prisma.order.create({
@@ -16,6 +16,7 @@ const createOrder = async (input: INewOrder) => {
                 customer: input.customer,
                 contact: input.contact,
                 deliveryAddress: input.deliveryAddress,
+                status: status,
                 purchasedItems: {
                     create: input.purchasedItems
                   }

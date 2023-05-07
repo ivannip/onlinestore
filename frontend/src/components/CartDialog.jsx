@@ -32,23 +32,23 @@ function CartDialog(props) {
 
 
     // this processOrder function is copied from processor.js
-    async function processOrder(order) {
-        try {
-             const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}product/amends`, order);
-             //if no purchased records are processed, refund the order
-             console.log(res.data)
-             if (res.data.products.length === 0) {
-                console.log("call refund");
-                await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/status/refund`, order);
-             } else {
-                console.log("call confirm");
-                await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/status/confirm`, order);
-             }
+    // async function processOrder(order) {
+    //     try {
+    //          const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}product/amends`, order);
+    //          //if no purchased records are processed, refund the order
+    //          console.log(res.data)
+    //          if (res.data.products.length === 0) {
+    //             console.log("call refund");
+    //             await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/status/refund`, order);
+    //          } else {
+    //             console.log("call confirm");
+    //             await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/status/confirm`, order);
+    //          }
              
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     const confirmOrder = async() => {
         try {
@@ -58,14 +58,18 @@ function CartDialog(props) {
                 transactions.push({productId: product.id, quantity: count, purchaseDate: new Date(), createDate: new Date()})
             })
             order.purchasedItems = transactions;
-            console.log(order);
-            const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/new`, order);
             
-            // using rabbitmq to process the order
+            //put inventory update and order creation all together
+            await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/submitorder`, order);
+
+            //create new order with status pending
+            //const res = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}order/new`, order);
+            
+            // submit the pending order to rabbitmq for processing
             //await axios.post(`${process.env.REACT_APP_API_ENDPOINT}msg/sendOrder`, res.data.order);
-            console.log(res.data)
-            //direct process the database change without MQ, use this when deploy to Heroku
-            await processOrder(res.data.order);
+            
+            //direct process the database change without MQ, update inventory, if valid, update order status
+            //await processOrder(res.data.order);
             
 
             

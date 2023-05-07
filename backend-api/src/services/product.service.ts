@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { INewProduct} from "../models/product.model";
 import { INewTransaction } from "../models/transaction.model";
 import {IProduct} from "../models/product.model";
-const initData = require("../util/initData");
-
+import {initData} from "../util/initData";
+ 
 const prisma = new PrismaClient();
 
 const createProduct = async (input: INewProduct) => {
@@ -86,8 +86,32 @@ const updateProductsForPurchasedNo = async (purchasedItems: INewTransaction []) 
         console.log(err)
         throw err
     }
-
 }
+
+const updateMultiProductInventory = async (purchasedItems: INewTransaction []) => {
+    let updatedProducts: IProduct[] = [];
+    let product: IProduct = null
+    return await prisma.$transaction( async (tx: PrismaClient) => {
+        
+            for (var item of purchasedItems) {
+                    product = await tx.product.update({
+                    data: {
+                        inventory: {decrement: item.quantity}
+                    },
+                    where: {
+                        id: item.productId
+                    }
+                })
+                if (product.inventory < 0)
+                    throw new Error("Not enough inventry for the order")
+                else
+                    updatedProducts.push(product)
+            }
+            return updatedProducts     
+    })
+}
+
+
 
 const initProduct = async () => {
     try {
@@ -109,5 +133,6 @@ export const productService = {
   readProductById,
   updateProduct,
   updateProductsForPurchasedNo,
+  updateMultiProductInventory,
   initProduct
 };
