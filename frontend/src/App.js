@@ -14,7 +14,9 @@ import CartDialog from "./components/CartDialog";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import OrderList from "./components/OrderList";
+import Footer from "./components/Footer";
 import {UserContext} from "./context/UserContext";
+
 
 function App() {
 
@@ -100,6 +102,7 @@ function App() {
           <Register />
         </TabPanel>
       </TabView>
+      <Footer />
     </div>
   ):userContext.token?(
     <div>
@@ -117,6 +120,7 @@ function App() {
             <OrderList />
         </TabPanel>
       </TabView>
+      <Footer />
     </div>
   ):(
     <div>

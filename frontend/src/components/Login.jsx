@@ -55,22 +55,29 @@ function Login(props) {
   return (
     <div>
       {error}
-    <div className="field grid">
-      <label htmlFor="username" className="col-fixed" >User Name:</label>
-        <div className="col">
-        <InputText id="email" name="email" value={user.email} onChange={handleChange}/>
-        </div>
-    </div>
-    <div className="field grid">
-      <label htmlFor="password" className="col-fixed" >Password</label>
-      <div className="col">
-        <Password id="password" name="password" value={user.password} onChange={handleChange}/>
+      <div className="field grid">
+        <label htmlFor="username" className="col-fixed" >User Name:</label>
+          <div className="col">
+          <InputText id="email" name="email" value={user.email} onChange={handleChange}/>
+          </div>
       </div>
-    </div>
-    <div className="field grid">
-      <Button label="Login" className="p-button-rounded" icon="pi pi-check" iconPos="right" onClick={loginAction}/>
-      <Button label="Reset DB" className="p-button-rounded p-button-warning" onClick={resetAction} />
-    </div>
+      <div className="field grid">
+        <label htmlFor="password" className="col-fixed" >Password</label>
+        <div className="col">
+          <Password id="password" name="password" value={user.password} onChange={handleChange}/>
+        </div>
+      </div>
+      <div className="field grid">
+        <Button label="Login" className="p-button-rounded" icon="pi pi-check" iconPos="right" onClick={loginAction}/>
+        <Button label="Reset DB" className="p-button-rounded p-button-warning" onClick={resetAction} />
+      </div>
+      
+      <div className="login-note">
+        <p>Build-in user accounts:</p>
+        <p>harrywan@mail.com / abc123</p> 
+        <p>or</p>
+        <p>kerrywan@mail.com / abc123</p>
+      </div>
  
     </div>
   )

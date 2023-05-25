@@ -3,6 +3,7 @@ import { INewProduct} from "../models/product.model";
 import { INewTransaction } from "../models/transaction.model";
 import {IProduct} from "../models/product.model";
 import {initData} from "../util/initData";
+import {HandleOrderProcess} from "../util/HandleOrderProcess"
  
 const prisma = new PrismaClient();
 
@@ -89,26 +90,28 @@ const updateProductsForPurchasedNo = async (purchasedItems: INewTransaction []) 
 }
 
 const updateMultiProductInventory = async (purchasedItems: INewTransaction []) => {
-    let updatedProducts: IProduct[] = [];
-    let product: IProduct = null
-    return await prisma.$transaction( async (tx: PrismaClient) => {
+    
+    return await new HandleOrderProcess(prisma).updateInventoryByOrder(purchasedItems)
+    // let updatedProducts: IProduct[] = [];
+    // let product: IProduct = null
+    // return await prisma.$transaction( async (tx: PrismaClient) => {
         
-            for (var item of purchasedItems) {
-                    product = await tx.product.update({
-                    data: {
-                        inventory: {decrement: item.quantity}
-                    },
-                    where: {
-                        id: item.productId
-                    }
-                })
-                if (product.inventory < 0)
-                    throw new Error("Not enough inventry for the order")
-                else
-                    updatedProducts.push(product)
-            }
-            return updatedProducts     
-    })
+    //         for (var item of purchasedItems) {
+    //                 product = await tx.product.update({
+    //                 data: {
+    //                     inventory: {decrement: item.quantity}
+    //                 },
+    //                 where: {
+    //                     id: item.productId
+    //                 }
+    //             })
+    //             if (product.inventory < 0)
+    //                 throw new Error("Not enough inventry for the order")
+    //             else
+    //                 updatedProducts.push(product)
+    //         }
+    //         return updatedProducts     
+    // })
 }
 
 
